@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
+import { error } from 'console';
 import { PrismaService } from 'src/database/Prisma.Service';
 
 @Injectable()
@@ -34,6 +35,20 @@ export class CategoriaService {
 
   async findAll() {
     return await this.prisma.categoria.findMany();
+  }
+
+  async findUnique(id: number) {
+    const categoria = await this.prisma.categoria.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!categoria) {
+      throw new error('Categoria not found');
+    }
+
+    return categoria;
   }
 
   async delete(id: number) {

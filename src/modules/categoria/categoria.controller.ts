@@ -24,6 +24,11 @@ export class CategoriaController {
     return this.categoriaService.findAll();
   }
 
+  @Get(':id')
+  async findUnique(@Param('id') id: number) {
+    return this.categoriaService.findUnique(+id);
+  }
+
   @Patch(':id')
   async update(
     @Param('id') id: number,
