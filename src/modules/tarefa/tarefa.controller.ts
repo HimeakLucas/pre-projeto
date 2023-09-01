@@ -26,6 +26,11 @@ export class TarefaController {
     return this.tarefaService.findAll();
   }
 
+  @Get(':id')
+  async findUnique(@Param('id') id: number) {
+    return this.tarefaService.findUnique(+id);
+  }
+
   @Patch(':id')
   async update(
     @Param('id') id: number,

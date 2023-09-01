@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
+import { error } from 'console';
 import { PrismaService } from 'src/database/Prisma.Service';
 
 @Injectable()
@@ -15,6 +16,20 @@ export class TarefaService {
 
   async findAll() {
     return await this.prisma.tarefa.findMany();
+  }
+
+  async findUnique(id: number) {
+    const tarefa = await this.prisma.tarefa.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!tarefa) {
+      throw new error('Tarefa not found');
+    }
+
+    return tarefa;
   }
 
   async update(id: number, data: Prisma.TarefaCreateInput) {
