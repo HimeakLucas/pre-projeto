@@ -15,13 +15,31 @@ export class TarefaService {
   }
 
   async findAll() {
-    return await this.prisma.tarefa.findMany();
+    return await this.prisma.tarefa.findMany({
+      select: {
+        id: true,
+        nome: true,
+        isActive: true,
+        categoria: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
   }
 
   async findUnique(id: number) {
     const tarefa = await this.prisma.tarefa.findUnique({
       where: {
         id,
+      },
+
+      select: {
+        id: true,
+        nome: true,
+        isActive: true,
+        categoria: true,
+        createdAt: true,
+        updatedAt: true,
       },
     });
 
