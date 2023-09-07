@@ -8,7 +8,8 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { CreateTarefaDto } from './dtos/create-tarefa';
+import { UpdateTarefaDto } from './dtos/update-tarefa';
 import { TarefaService } from './tarefa.service';
 
 @Controller('tarefa')
@@ -17,7 +18,7 @@ export class TarefaController {
 
   @Post()
   @HttpCode(200)
-  async create(@Body() data: Prisma.TarefaCreateInput) {
+  async create(@Body() data: CreateTarefaDto) {
     return this.tarefaService.create(data);
   }
 
@@ -32,10 +33,7 @@ export class TarefaController {
   }
 
   @Patch(':id')
-  async update(
-    @Param('id') id: number,
-    @Body() data: Prisma.TarefaCreateInput,
-  ) {
+  async update(@Param('id') id: number, @Body() data: UpdateTarefaDto) {
     return this.tarefaService.update(+id, data);
   }
 

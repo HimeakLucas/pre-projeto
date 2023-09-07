@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
 import { error } from 'console';
 import { PrismaService } from 'src/database/Prisma.Service';
+import { CreateTarefaDto } from './dtos/create-tarefa';
+import { UpdateTarefaDto } from './dtos/update-tarefa';
 
 @Injectable()
 export class TarefaService {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: Prisma.TarefaCreateInput) {
+  async create(data: CreateTarefaDto) {
     const tarefa = await this.prisma.tarefa.create({
       data,
     });
@@ -50,7 +51,7 @@ export class TarefaService {
     return tarefa;
   }
 
-  async update(id: number, data: Prisma.TarefaCreateInput) {
+  async update(id: number, data: UpdateTarefaDto) {
     const tarefaExists = await this.prisma.tarefa.findUnique({
       where: {
         id,
