@@ -4,18 +4,20 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
 } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
 import { CategoriaService } from './categoria.service';
+import { CreateCategoriaDto } from './dtos/create-categoria';
+import { UpdateCategoriaDto } from './dtos/update-categoria';
 
 @Controller('categoria')
 export class CategoriaController {
   constructor(private readonly categoriaService: CategoriaService) {}
 
   @Post()
-  async create(@Body() data: Prisma.CategoriaCreateInput) {
+  async create(@Body() data: CreateCategoriaDto) {
     return this.categoriaService.create(data);
   }
 
@@ -25,20 +27,20 @@ export class CategoriaController {
   }
 
   @Get(':id')
-  async findUnique(@Param('id') id: number) {
+  async findUnique(@Param('id', ParseIntPipe) id: number) {
     return this.categoriaService.findUnique(+id);
   }
 
   @Patch(':id')
   async update(
-    @Param('id') id: number,
-    @Body() data: Prisma.TarefaCreateInput,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() data: UpdateCategoriaDto,
   ) {
     return this.categoriaService.update(+id, data);
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: number) {
+  async delete(@Param('id', ParseIntPipe) id: number) {
     return this.categoriaService.delete(+id);
   }
 }

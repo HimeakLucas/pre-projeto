@@ -1,20 +1,20 @@
-import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
-import { error } from 'console';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/Prisma.Service';
+import { CreateCategoriaDto } from './dtos/create-categoria';
+import { UpdateCategoriaDto } from './dtos/update-categoria';
 
 @Injectable()
 export class CategoriaService {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: Prisma.CategoriaCreateInput) {
+  async create(data: CreateCategoriaDto) {
     const categoria = await this.prisma.categoria.create({
       data,
     });
     return categoria;
   }
 
-  async update(id: number, data: Prisma.CategoriaCreateInput) {
+  async update(id: number, data: UpdateCategoriaDto) {
     const categoriaExists = await this.prisma.categoria.findUnique({
       where: {
         id,
@@ -22,10 +22,10 @@ export class CategoriaService {
     });
 
     if (!categoriaExists) {
-      throw new Error('Categoria not found');
+      throw new HttpException('Categoria not found', HttpStatus.BAD_REQUEST);
     }
 
-    await this.prisma.categoria.update({
+    return await this.prisma.categoria.update({
       data,
       where: {
         id,
@@ -45,24 +45,24 @@ export class CategoriaService {
     });
 
     if (!categoria) {
-      throw new error('Categoria not found');
+      throw new HttpException('Categoria not found', HttpStatus.BAD_REQUEST);
     }
 
     return categoria;
   }
 
   async delete(id: number) {
-    const categoriaExists = this.prisma.categoria.findUnique({
+    const categoriaExists = await this.prisma.categoria.findUnique({
       where: {
         id,
       },
     });
 
     if (!categoriaExists) {
-      throw new Error('Categoria not found');
+      throw new HttpException('Categoria not found', HttpStatus.BAD_REQUEST);
     }
 
-    await this.prisma.categoria.delete({
+    return await this.prisma.categoria.delete({
       where: {
         id,
       },
