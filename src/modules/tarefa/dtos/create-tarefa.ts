@@ -1,4 +1,11 @@
+import { IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+
 export class CreateTarefaDto {
+  @IsString()
+  @IsNotEmpty()
   nome: string;
-  id_cateogira?: number;
+
+  @IsInt()
+  @IsOptional()
+  categoriaId?: number;
 }

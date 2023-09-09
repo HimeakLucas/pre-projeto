@@ -1,5 +1,4 @@
-import { Injectable } from '@nestjs/common';
-import { error } from 'console';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/Prisma.Service';
 import { CreateTarefaDto } from './dtos/create-tarefa';
 import { UpdateTarefaDto } from './dtos/update-tarefa';
@@ -45,7 +44,7 @@ export class TarefaService {
     });
 
     if (!tarefa) {
-      throw new error('Tarefa not found');
+      throw new HttpException('Tarefa not found', HttpStatus.BAD_REQUEST);
     }
 
     return tarefa;
@@ -59,13 +58,21 @@ export class TarefaService {
     });
 
     if (!tarefaExists) {
-      throw new Error('Tarefa not found');
+      throw new HttpException('Tarefa not found', HttpStatus.BAD_REQUEST);
     }
 
-    await this.prisma.tarefa.update({
+    return await this.prisma.tarefa.update({
       data,
       where: {
         id,
+      },
+      select: {
+        id: true,
+        nome: true,
+        isActive: true,
+        categoria: true,
+        createdAt: true,
+        updatedAt: true,
       },
     });
   }
@@ -78,12 +85,20 @@ export class TarefaService {
     });
 
     if (!tarefaExists) {
-      throw new Error('Tarefa not found');
+      throw new HttpException('Tarefa not found', HttpStatus.BAD_REQUEST);
     }
 
-    await this.prisma.tarefa.delete({
+    return await this.prisma.tarefa.delete({
       where: {
         id,
+      },
+      select: {
+        id: true,
+        nome: true,
+        isActive: true,
+        categoria: true,
+        createdAt: true,
+        updatedAt: true,
       },
     });
   }

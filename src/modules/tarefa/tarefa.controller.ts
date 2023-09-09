@@ -3,8 +3,8 @@ import {
   Controller,
   Delete,
   Get,
-  HttpCode,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
 } from '@nestjs/common';
@@ -17,7 +17,6 @@ export class TarefaController {
   constructor(private readonly tarefaService: TarefaService) {}
 
   @Post()
-  @HttpCode(200)
   async create(@Body() data: CreateTarefaDto) {
     return this.tarefaService.create(data);
   }
@@ -28,17 +27,20 @@ export class TarefaController {
   }
 
   @Get(':id')
-  async findUnique(@Param('id') id: number) {
-    return this.tarefaService.findUnique(+id);
+  async findUnique(@Param('id', ParseIntPipe) id: number) {
+    return this.tarefaService.findUnique(id);
   }
 
   @Patch(':id')
-  async update(@Param('id') id: number, @Body() data: UpdateTarefaDto) {
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() data: UpdateTarefaDto,
+  ) {
     return this.tarefaService.update(+id, data);
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: number) {
+  async delete(@Param('id', ParseIntPipe) id: number) {
     return this.tarefaService.delete(+id);
   }
 }

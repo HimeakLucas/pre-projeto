@@ -28,6 +28,6 @@ model Tarefa {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   
-  id_categoria  Int?  
-  categoria Categoria? @relation(fields: [id_categoria], references: [id])
+  categoriaId Int?  
+  categoria Categoria? @relation(fields: [categoriaId], references: [id])
 }
