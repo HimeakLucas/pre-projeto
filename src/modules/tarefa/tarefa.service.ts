@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/Prisma.Service';
 import { CreateTarefaDto } from './dtos/create-tarefa';
 import { UpdateTarefaDto } from './dtos/update-tarefa';
+import { defaultSelect } from './tarefa.default-select';
 
 @Injectable()
 export class TarefaService {
@@ -16,14 +17,7 @@ export class TarefaService {
 
   async findAll() {
     return await this.prisma.tarefa.findMany({
-      select: {
-        id: true,
-        nome: true,
-        isActive: true,
-        categoria: true,
-        createdAt: true,
-        updatedAt: true,
-      },
+      select: defaultSelect,
     });
   }
 
@@ -33,14 +27,7 @@ export class TarefaService {
         id,
       },
 
-      select: {
-        id: true,
-        nome: true,
-        isActive: true,
-        categoria: true,
-        createdAt: true,
-        updatedAt: true,
-      },
+      select: defaultSelect,
     });
 
     if (!tarefa) {
@@ -66,14 +53,7 @@ export class TarefaService {
       where: {
         id,
       },
-      select: {
-        id: true,
-        nome: true,
-        isActive: true,
-        categoria: true,
-        createdAt: true,
-        updatedAt: true,
-      },
+      select: defaultSelect,
     });
   }
 
@@ -92,14 +72,7 @@ export class TarefaService {
       where: {
         id,
       },
-      select: {
-        id: true,
-        nome: true,
-        isActive: true,
-        categoria: true,
-        createdAt: true,
-        updatedAt: true,
-      },
+      select: defaultSelect,
     });
   }
 
