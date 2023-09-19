@@ -102,4 +102,28 @@ export class TarefaService {
       },
     });
   }
+
+  async deleteAllInactive() {
+    return await this.prisma.tarefa.deleteMany({
+      where: {
+        isActive: false,
+      },
+    });
+  }
+
+  async findAllActive(active: boolean) {
+    if (active) {
+      return await this.prisma.tarefa.findMany({
+        where: {
+          isActive: true,
+        },
+      });
+    } else {
+      return await this.prisma.tarefa.findMany({
+        where: {
+          isActive: false,
+        },
+      });
+    }
+  }
 }

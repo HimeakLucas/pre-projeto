@@ -1,4 +1,4 @@
-import { IsBoolean, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsInt, IsOptional, IsString } from 'class-validator';
 
 export class UpdateTarefaDto {
   @IsString()
@@ -8,4 +8,8 @@ export class UpdateTarefaDto {
   @IsOptional()
   @IsBoolean()
   isActive: boolean;
+
+  @IsInt()
+  @IsOptional()
+  categoriaId?: number;
 }

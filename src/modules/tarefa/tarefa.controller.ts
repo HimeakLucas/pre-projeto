@@ -4,9 +4,11 @@ import {
   Delete,
   Get,
   Param,
+  ParseBoolPipe,
   ParseIntPipe,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { CreateTarefaDto } from './dtos/create-tarefa';
 import { UpdateTarefaDto } from './dtos/update-tarefa';
@@ -26,7 +28,7 @@ export class TarefaController {
     return this.tarefaService.findAll();
   }
 
-  @Get(':id')
+  @Get('getById/:id')
   async findUnique(@Param('id', ParseIntPipe) id: number) {
     return this.tarefaService.findUnique(id);
   }
@@ -39,8 +41,18 @@ export class TarefaController {
     return this.tarefaService.update(+id, data);
   }
 
-  @Delete(':id')
+  @Delete('deleteById/:id')
   async delete(@Param('id', ParseIntPipe) id: number) {
     return this.tarefaService.delete(+id);
+  }
+
+  @Delete('deleteAllComplete')
+  async deleteAllComplete() {
+    return this.tarefaService.deleteAllInactive();
+  }
+
+  @Get('filterBy')
+  async findAllActive(@Query('isActive', ParseBoolPipe) active: boolean) {
+    return this.tarefaService.findAllActive(active);
   }
 }
