@@ -99,4 +99,23 @@ export class TarefaService {
       });
     }
   }
+
+  async findAllFromCategoria(categoriaId: number) {
+    const categoriaExists = await this.prisma.categoria.findUnique({
+      where: {
+        id: categoriaId,
+      },
+    });
+
+    if (categoriaExists) {
+      return await this.prisma.tarefa.findMany({
+        where: {
+          categoriaId,
+        },
+        select: defaultSelect,
+      });
+    } else {
+      throw new HttpException('Categoria not found', HttpStatus.BAD_REQUEST);
+    }
+  }
 }

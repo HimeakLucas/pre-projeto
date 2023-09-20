@@ -55,4 +55,11 @@ export class TarefaController {
   async findAllActive(@Query('isActive', ParseBoolPipe) active: boolean) {
     return this.tarefaService.findAllActive(active);
   }
+
+  @Get('fromCategoria/:categoriaId')
+  async findAllFromCategoria(
+    @Param('categoriaId', ParseIntPipe) categoriaId: number,
+  ) {
+    return this.tarefaService.findAllFromCategoria(categoriaId);
+  }
 }
